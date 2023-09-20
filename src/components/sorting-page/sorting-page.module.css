@@ -1,0 +1,34 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  column-gap: 40px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.radioinput {
+  display: flex;
+  flex-direction: row;
+  column-gap: 40px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  min-width: 707px;
+}
+
+.button {
+  margin-left: 44px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 50px;
+  flex-direction: row;
+  column-gap: 8px;
+  list-style-type: none;
+}
