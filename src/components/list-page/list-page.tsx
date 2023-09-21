@@ -262,10 +262,10 @@ export const ListPage: React.FC = () => {
       list.extractAt(inputIndex)
     
       //проходим по всем элементам до нужного индекса, менем цвет перебранным элементам
-      for(let i = 0; i <= inputIndex; i++) {
+      for(let i = 0; i < inputIndex; i++) {
         array[i] = {
           ...array[i], 
-          color: ElementStates.Default, 
+          color: ElementStates.Changing, 
           arrow: false
         }
         setArray([...array])
@@ -316,7 +316,7 @@ export const ListPage: React.FC = () => {
         <p className={Styles.text}>Максимум - 4 символа</p>
         <div className={Styles.container}>
           <Input extraClass={Styles.input} placeholder="Введите значение" value={inputIndex? inputIndex : ""} maxLength={array.length - 1} onChange={onChangeInputIndex}></Input>
-          <Button type="button" linkedList="big" text="Добавить по индексу" onClick={addByIndex} disabled={inputValue === "" || isDisabled} isLoader={isloadAddIndex}></Button>
+          <Button type="button" linkedList="big" text="Добавить по индексу" onClick={addByIndex} disabled={inputValue === "" || isDisabled || Number(inputIndex) > array.length - 1} isLoader={isloadAddIndex}></Button>
           <Button type="button" linkedList="big" text="Удалить по индексу" onClick={deleteByIndex} disabled={!array.length || isDisabled} isLoader={isloadDeleteIndex}></Button>
         </div>
       </form>

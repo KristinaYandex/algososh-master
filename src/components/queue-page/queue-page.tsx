@@ -16,7 +16,10 @@ type TElement = {
 export const QueuePage: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [container, setContainer] = useState<(TElement| null)[]>(Array(7).fill({value: '', color: ElementStates.Default}));
-  const [loader, setLoader] = useState(false);
+  const [loaderPush, setLoaderPush] = useState<boolean>(false);
+  const [loaderDelete, setLoaderDelete] = useState<boolean>(false);
+  const [loaderClear, setLoaderClear] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const queue =  useMemo(() => {
     return new Queue<TElement>(7);
@@ -28,7 +31,8 @@ export const QueuePage: React.FC = () => {
 
   const pushElement = async () => {
     if (inputValue) {
-      setLoader(true);
+      setIsDisabled(true);
+      setLoaderPush(true);
       queue.enqueue({value: inputValue, color: ElementStates.Default});
       container[queue.getTail() - 1] = { value: inputValue, color: ElementStates.Changing };
       setContainer([...container]);
@@ -36,35 +40,40 @@ export const QueuePage: React.FC = () => {
       await loading(500);
       container[queue.getTail() - 1] = { value: inputValue, color: ElementStates.Default };
       setContainer([...container]);
-      setLoader(false);
+      setLoaderPush(false);
+      setIsDisabled(false);
     }
   }
 
   const deleteElement = async () => {
-    setLoader(true);
+    setIsDisabled(true);
+    setLoaderDelete(true);
     container[queue.getHead()] = {value: "", color: ElementStates.Changing};
     setContainer([...container]);
     queue.dequeue();
     await loading(500)
     container[queue.getHead() - 1] = {value: "", color: ElementStates.Default};
     setContainer([...container]);
-    setLoader(false);
+    setLoaderDelete(false);
+    setIsDisabled(false);
   }
   
   const clearQueue = () => {
+    setLoaderClear(true);
     if (container.length) {
       queue.clear();
       setContainer(Array(7).fill({value: '', color: ElementStates.Default}));
     }
+    setLoaderClear(false);
   }
 
   return (
     <SolutionLayout title="Очередь">
       <form className={Styles.form}>
         <Input extraClass={Styles.input} placeholder="Введите текст" value={inputValue} maxLength={4} onChange={onChange}></Input>
-        <Button type="submit" linkedList="small" text="Добавить" onClick={pushElement} disabled={inputValue === "" || queue.isFullQueue()} isLoader={loader}></Button>
-        <Button type="button" linkedList="small" text="Удалить" onClick={deleteElement} disabled={container.length ? false : true} isLoader={loader}></Button>
-        <Button extraClass={Styles.button} type="reset" linkedList="small" text="Очистить" onClick={clearQueue} disabled={container.length ? false : true} isLoader={loader}></Button>
+        <Button type="submit" linkedList="small" text="Добавить" onClick={pushElement} disabled={inputValue === "" || queue.isFullQueue()} isLoader={loaderPush}></Button>
+        <Button type="reset" linkedList="small" text="Удалить" onClick={deleteElement} disabled={loaderPush || loaderClear || (container.length ? false : true)} isLoader={loaderDelete}></Button>
+        <Button extraClass={Styles.button} type="reset" linkedList="small" text="Очистить" onClick={clearQueue} disabled={loaderPush || loaderDelete || (container.length ? false : true)} isLoader={loaderClear}></Button>
       </form>
       <p className={Styles.text}>Максимум - 4 символа</p>
       <ul className={Styles.list}>
