@@ -14,14 +14,14 @@ type TArray = {
   color: ElementStates;
 }
 
-export const selectionSort = async (arr: TArray[], setArrayNumber: Dispatch<SetStateAction<TArray[]>>, sortingDirection: 'asc' | 'desc') => {
+export const selectionSort = async (arr: TArray[], timeDelay: number, setArrayNumber: Dispatch<SetStateAction<TArray[]>>, sortingDirection: 'asc' | 'desc') => {
   for (let i = 0; i < arr.length; i++) {
     let maxIndex = i;
     for (let j = i + 1; j < arr.length; j++) {
       arr[i].color = ElementStates.Changing;
       arr[j].color = ElementStates.Changing;
       setArrayNumber([...arr]);
-      await loading(500)
+      await loading(timeDelay)
       if (sortingDirection === 'asc') {
         if (arr[j].state < arr[maxIndex].state) {
           maxIndex = j;
@@ -46,13 +46,13 @@ export const selectionSort = async (arr: TArray[], setArrayNumber: Dispatch<SetS
   }
 }
 
-export const bubbleSort = async (arr: TArray[], setArrayNumber: Dispatch<SetStateAction<TArray[]>>, sortingDirection: 'asc' | 'desc') => {
+export const bubbleSort = async (arr: TArray[], timeDelay: number, setArrayNumber: Dispatch<SetStateAction<TArray[]>>, sortingDirection: 'asc' | 'desc') => {
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr.length - i - 1; j++) {
       arr[j].color = ElementStates.Changing;
       arr[j + 1].color = ElementStates.Changing;
       setArrayNumber([...arr]);
-      await loading(500)
+      await loading(timeDelay)
       if (sortingDirection === 'asc') {
         if (arr[j].state > arr[j + 1].state) {
           swap(arr, j, j + 1);
@@ -100,10 +100,10 @@ export const SortingPage: React.FC = () => {
   function ascendingSort() {
     setLoader(true);
     if (sortingMethod === 'selectionSort') {
-      selectionSort(arrayNumber, setArrayNumber, 'asc')
+      selectionSort(arrayNumber, 1000, setArrayNumber, 'asc')
     }
     if (sortingMethod === 'bubbleSort') {
-      bubbleSort(arrayNumber, setArrayNumber, 'asc')
+      bubbleSort(arrayNumber, 1000, setArrayNumber, 'asc')
     }
     setLoader(false);
   }
@@ -111,10 +111,10 @@ export const SortingPage: React.FC = () => {
   function descendingSort() {
     setLoader(true);
     if (sortingMethod === 'selectionSort') {
-      selectionSort(arrayNumber, setArrayNumber, 'desc')
+      selectionSort(arrayNumber, 1000, setArrayNumber, 'desc')
     }
     if (sortingMethod === 'bubbleSort') {
-      bubbleSort(arrayNumber, setArrayNumber, 'desc')
+      bubbleSort(arrayNumber, 1000, setArrayNumber, 'desc')
     }
     setLoader(false);
   }

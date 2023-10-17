@@ -1,7 +1,7 @@
 import { url } from './utils';
 
 describe('Роутинг корректно настроен', function() {
-  before(function() {
+  beforeEach(function() {
     cy.visit(url);
   });
 

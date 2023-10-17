@@ -38,18 +38,18 @@ const finalArrayDescending = [
 describe('Тестирование алгоритма сортировки массива выбором по возрастанию', () => {
   it('Сортировка выбором: корректно сортирует пустой массив (по возрастанию)', async () => {
 
-    await selectionSort([], setArray, "asc");
+    await selectionSort([], 1000, setArray, "asc");
   })
 
   it('Сортировка выбором: корректно сортирует массив из одного элемента (по возрастанию)', async () => {
 
-    await selectionSort(arrayOfOneElement, setArray, "asc");
+    await selectionSort(arrayOfOneElement, 1000, setArray, "asc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayOfOneElement);
   })
 
   it('Сортировка выбором: корректно сортирует массив из нескольких элементов (по возрастанию)', async () => {
 
-    await selectionSort(startArray, setArray, "asc");
+    await selectionSort(startArray, 0, setArray, "asc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayAscending);
   })
 })
@@ -57,18 +57,18 @@ describe('Тестирование алгоритма сортировки ма�
 describe('Тестирование алгоритма сортировки массива выбором по убыванию', () => {
   it('Сортировка выбором: корректно сортирует пустой массив (по убыванию)', async () => {
 
-    await selectionSort([], setArray, "desc");
+    await selectionSort([], 1000, setArray, "desc");
   })
 
   it('Сортировка выбором: корректно сортирует массив из одного элемента (по убыванию)', async () => {
 
-    await selectionSort(arrayOfOneElement, setArray, "desc");
+    await selectionSort(arrayOfOneElement, 1000, setArray, "desc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayOfOneElement);
   })
 
   it('Сортировка выбором: корректно сортирует массив из нескольких элементов (по убыванию)', async () => {
  
-    await selectionSort(startArray, setArray, "desc");
+    await selectionSort(startArray, 0, setArray, "desc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayDescending);
   })
 })
@@ -78,18 +78,18 @@ describe('Тестирование алгоритма сортировки ма�
 describe('Тестирование алгоритма сортировки массива пузырьком по возрастанию', () => {
   it('Сортировка пузырьком: корректно сортирует пустой массив (по возрастанию)', async () => {
 
-    await bubbleSort([], setArray, "asc");
+    await bubbleSort([], 1000, setArray, "asc");
   })
 
   it('Сортировка пузырьком: корректно сортирует массив из одного элемента (по возрастанию)', async () => {
 
-    await bubbleSort(arrayOfOneElement, setArray, "asc");
+    await bubbleSort(arrayOfOneElement, 1000, setArray, "asc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayOfOneElement);
   })
 
   it('Сортировка пузырьком: корректно сортирует массив из нескольких элементов (по возрастанию)', async () => {
 
-    await bubbleSort(startArray, setArray, "asc");
+    await bubbleSort(startArray, 0, setArray, "asc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayAscending);
   })
 })
@@ -97,18 +97,18 @@ describe('Тестирование алгоритма сортировки ма�
 describe('Тестирование алгоритма сортировки массива пузырьком по убыванию', () => {
   it('Сортировка пузырьком: корректно сортирует пустой массив (по убыванию)', async () => {
 
-    await bubbleSort([], setArray, "desc");
+    await bubbleSort([], 1000, setArray, "desc");
   })
 
   it('Сортировка пузырьком: корректно сортирует массив из одного элемента (по убыванию)', async () => {
 
-    await bubbleSort(arrayOfOneElement, setArray, "desc");
+    await bubbleSort(arrayOfOneElement, 1000, setArray, "desc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayOfOneElement);
   })
 
   it('Сортировка пузырьком: корректно сортирует массив из нескольких элементов (по убыванию)', async () => {
 
-    await bubbleSort(startArray, setArray, "desc");
+    await bubbleSort(startArray, 0, setArray, "desc");
     expect(setArray).toHaveBeenLastCalledWith(finalArrayDescending);
   })
 })

@@ -307,7 +307,7 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <form className={Styles.form}>
         <div className={Styles.container}>
-          <Input extraClass={Styles.input} placeholder="Введите значение" value={inputValue} maxLength={4} onChange={onChangeInput}></Input>
+          <Input extraClass={Styles.input} placeholder="Введите текст" value={inputValue} maxLength={4} onChange={onChangeInput}></Input>
           <Button type="button" linkedList="small" text="Добавить в head" onClick={addToHead} disabled={inputValue === "" || isDisabled} isLoader={isloadAddInHead}></Button>
           <Button type="button" linkedList="small" text="Добавить в tail" onClick={addToTail} disabled={inputValue === "" || isDisabled} isLoader={isloadAddInTail}></Button>
           <Button type="button" linkedList="small" text="Удалить из head" onClick={deleteFromHead} disabled={!array.length || isDisabled} isLoader={isloadDeleteFromHead}></Button>
@@ -315,7 +315,7 @@ export const ListPage: React.FC = () => {
         </div>
         <p className={Styles.text}>Максимум - 4 символа</p>
         <div className={Styles.container}>
-          <Input extraClass={Styles.input} placeholder="Введите значение" value={inputIndex? inputIndex : ""} maxLength={array.length - 1} onChange={onChangeInputIndex}></Input>
+          <Input extraClass={Styles.input} placeholder="Введите индекс" value={inputIndex? inputIndex : ""} maxLength={array.length - 1} onChange={onChangeInputIndex}></Input>
           <Button type="button" linkedList="big" text="Добавить по индексу" onClick={addByIndex} disabled={inputValue === "" || isDisabled || Number(inputIndex) > array.length - 1} isLoader={isloadAddIndex}></Button>
           <Button type="button" linkedList="big" text="Удалить по индексу" onClick={deleteByIndex} disabled={!array.length || isDisabled} isLoader={isloadDeleteIndex}></Button>
         </div>

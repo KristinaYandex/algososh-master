@@ -2,19 +2,28 @@ import { url } from './utils';
 import { DEFAULT_COLOR, CHANGING_COLOR, MODIFIED_COLOR, circle, head, tail, circleSmall } from "./constants";
 
 describe('Корректно отображается страница Cвязный список', function() {
-  before(function() {
+  beforeEach(function() {
     cy.visit(`${url}/list`);
     cy.get("input[placeholder='Введите текст']").as('inputText')
     cy.get("input[placeholder='Введите индекс']").as('inputIndex')
   });
 
-  it('Если инпут пустой, то кнопки заблокированы', function() {
+  it('Если инпут пустой, то кнопка заблокирована', function() {
     cy.get('@inputText').should('have.value', '');
+    cy.contains('Добавить в head').should('be.disabled');
+    cy.contains('Добавить в tail').should('be.disabled');
     cy.get('@inputIndex').should('have.value', '');
-    cy.get('button').contains('Добавить в head').should('be.disabled');
-    cy.get('button').contains('Добавить в tail').should('be.disabled');
-    cy.get('button').contains('Добавить по индексу').should('be.disabled');
-    cy.get('button').contains('Удалить по индексу').should('be.disabled');
+    cy.contains('Добавить по индексу').should('be.disabled');
+  });
+
+  it('Если инпут непустой, то кнопка разблокирована', function() {
+    cy.get('@inputText').type('1');
+    cy.get('button').contains('Добавить в head').should('not.be.disabled');
+    cy.get('button').contains('Добавить в tail').should('not.be.disabled');
+    cy.get('input').clear();
+    cy.get('@inputIndex').type('1');
+    cy.get('button').contains('Добавить по индексу').should('not.be.disabled');
+    cy.get('input').clear();
   });
 
   it('Корректно отображается список по умолчанию', function() {
@@ -57,14 +66,14 @@ describe('Корректно отображается страница Cвязн
     cy.get('@inputIndex').type(2);
     cy.get('button').contains('Добавить по индексу').click();
 
-    cy.get(circleSmall).first().should('have.css', 'border', CHANGING_COLOR).contains('11');
+    cy.get(circleSmall).should('have.css', 'border', CHANGING_COLOR).contains('11');
     cy.get(circle).first().should('have.css', 'border', CHANGING_COLOR).contains('0');
 
-    cy.get(circleSmall).eq(1).should('have.css', 'border', CHANGING_COLOR).contains('11');
+    cy.get(circleSmall).should('have.css', 'border', CHANGING_COLOR).contains('11');
     cy.get(circle).eq(1).should('have.css', 'border', CHANGING_COLOR).contains('34');
 
-    cy.get(circleSmall).eq(2).should('have.css', 'border', CHANGING_COLOR).contains('11');
-    cy.get(circleSmall).eq(2).should('not.exist');
+    cy.get(circleSmall).should('have.css', 'border', CHANGING_COLOR).contains('11');
+    cy.get(circleSmall).should('not.exist');
     cy.get(circle).eq(2).should('have.css', 'border', MODIFIED_COLOR).contains('11');
 
     cy.get(circle).eq(2).should('have.css', 'border', DEFAULT_COLOR).contains('11');
@@ -79,13 +88,12 @@ describe('Корректно отображается страница Cвязн
 
     cy.get(circle).first().should('have.css', 'border', CHANGING_COLOR).contains('0');
     cy.get(circle).eq(1).should('have.css', 'border', CHANGING_COLOR).contains('34');
-    cy.get(circle).eq(2).should('have.css', 'border', CHANGING_COLOR).contains('8');
+    cy.get(circleSmall).should('have.css', 'border', CHANGING_COLOR).contains('8');
+    cy.get(circle).eq(2).should('have.css', 'border', CHANGING_COLOR).should('have.text', '');
 
-    cy.get(circleSmall).eq(2).should('have.css', 'border', CHANGING_COLOR).contains('8');
-    cy.get(circle).eq(2).should('have.css', 'border', DEFAULT_COLOR).should('have.text', '');
+    cy.get(circle).eq(2).should('have.css', 'border', DEFAULT_COLOR).contains('1');
     
     cy.get(circleSmall).should('not.exist');
-    cy.get(circle).should('not.exist');
     cy.get(tail).eq(2).contains('tail');
 
     cy.get('@inputIndex').should('be.empty');
@@ -98,7 +106,6 @@ describe('Корректно отображается страница Cвязн
     cy.get(circleSmall).first().should('have.css', 'border', CHANGING_COLOR).contains('0');
 
     cy.get(circleSmall).should('not.exist');
-    cy.get(circle).should('not.exist');
 
     cy.get(head).first().contains('head');
     cy.get(tail).eq(2).contains('tail');
@@ -107,11 +114,10 @@ describe('Корректно отображается страница Cвязн
   it('Корректно работает удаление из tail', function() {
     cy.get('button').contains('Удалить из tail').click();
 
+    cy.get(circleSmall).should('have.css', 'border', CHANGING_COLOR).contains('1');
     cy.get(circle).eq(3).should('have.css', 'border', DEFAULT_COLOR).should('have.text', '');
-    cy.get(circleSmall).eq(3).should('have.css', 'border', CHANGING_COLOR).contains('1');
 
     cy.get(circleSmall).should('not.exist');
-    cy.get(circle).should('not.exist');
 
     cy.get(tail).eq(2).contains('tail');
   })

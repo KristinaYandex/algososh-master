@@ -2,7 +2,7 @@ import { url } from './utils';
 import { CHANGING_COLOR, DEFAULT_COLOR, MODIFIED_COLOR, circle } from "./constants";
 
 describe('Корректно отображается страница Строка', function() {
-  before(function() {
+  beforeEach(function() {
     cy.visit(`${url}/recursion`);
   });
 
@@ -19,7 +19,7 @@ describe('Корректно отображается страница Стро�
     cy.get(circle).first().as('first');
     cy.get(circle).eq(1).as('second');
     cy.get(circle).eq(2).as('third');
-    cy.get(circle).eq(3).as('forth');
+    cy.get(circle).eq(3).as('fourth');
     cy.get(circle).eq(4).as('fifth');
     cy.get(circle).eq(5).as('sixth');
 

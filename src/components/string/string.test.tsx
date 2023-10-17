@@ -28,7 +28,7 @@ describe('Тестирование алгоритма разворота стр�
     expect(setArray).toHaveBeenLastCalledWith(finalArray);
   })
 
-  it('Корректно разворачивает строку с чётным количеством символов', async () => {
+  it('Корректно разворачивает строку с нечётным количеством символов', async () => {
     const startArray = [
       {value: 'h', color: ElementStates.Default},
       {value: 'e', color: ElementStates.Default},

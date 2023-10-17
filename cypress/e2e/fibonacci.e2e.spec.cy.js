@@ -2,7 +2,7 @@ import { url } from './utils';
 import { DEFAULT_COLOR, circle } from "./constants";
 
 describe('Корректно отображается страница Фибоначчи', function() {
-  before(function() {
+  beforeEach(function() {
     cy.visit(`${url}/fibonacci`);
   });
 
@@ -19,7 +19,7 @@ describe('Корректно отображается страница Фибо�
     cy.get(circle).first().as('first');
     cy.get(circle).eq(1).as('second');
     cy.get(circle).eq(2).as('third');
-    cy.get(circle).eq(3).as('forth');
+    cy.get(circle).eq(3).as('fourth');
     cy.get(circle).eq(4).as('fifth');
     cy.get(circle).eq(5).as('sixth');
     cy.get(circle).eq(6).as('seventh');
