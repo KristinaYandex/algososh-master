@@ -315,9 +315,9 @@ export const ListPage: React.FC = () => {
         </div>
         <p className={Styles.text}>Максимум - 4 символа</p>
         <div className={Styles.container}>
-          <Input extraClass={Styles.input} placeholder="Введите индекс" value={inputIndex? inputIndex : ""} maxLength={array.length - 1} onChange={onChangeInputIndex}></Input>
+          <Input extraClass={Styles.input} placeholder="Введите индекс" value={inputIndex ? inputIndex : ""} max={array.length - 1} onChange={onChangeInputIndex}></Input>
           <Button type="button" linkedList="big" text="Добавить по индексу" onClick={addByIndex} disabled={inputValue === "" || isDisabled || Number(inputIndex) > array.length - 1} isLoader={isloadAddIndex}></Button>
-          <Button type="button" linkedList="big" text="Удалить по индексу" onClick={deleteByIndex} disabled={!array.length || isDisabled} isLoader={isloadDeleteIndex}></Button>
+          <Button type="button" linkedList="big" text="Удалить по индексу" onClick={deleteByIndex} disabled={!inputIndex || !array.length || isDisabled || Number(inputIndex) > array.length - 1} isLoader={isloadDeleteIndex}></Button>
         </div>
       </form>
       <ul className={Styles.list}>
