@@ -9,8 +9,8 @@ export const swap = (arr: TArray[], firstIndex: number, secondIndex: number): vo
   const temp = arr[firstIndex];
   arr[firstIndex] = arr[secondIndex];
   arr[secondIndex] = temp;
-};
+}
 
 export const loading = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
-};
+}

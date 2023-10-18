@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, SetStateAction, Dispatch} from "react";
 import { swap } from "../utils";
 import { loading } from "../utils";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -12,6 +12,64 @@ import Styles from "./sorting-page.module.css";
 type TArray = {
   state: number;
   color: ElementStates;
+}
+
+export const selectionSort = async (arr: TArray[], timeDelay: number, setArrayNumber: Dispatch<SetStateAction<TArray[]>>, sortingDirection: 'asc' | 'desc') => {
+  for (let i = 0; i < arr.length; i++) {
+    let maxIndex = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      arr[i].color = ElementStates.Changing;
+      arr[j].color = ElementStates.Changing;
+      setArrayNumber([...arr]);
+      await loading(timeDelay)
+      if (sortingDirection === 'asc') {
+        if (arr[j].state < arr[maxIndex].state) {
+          maxIndex = j;
+          swap(arr, j, maxIndex);
+          setArrayNumber([...arr]);
+        }
+      }
+      if (sortingDirection === 'desc') {
+        if (arr[j].state > arr[maxIndex].state) {
+          maxIndex = j;
+          swap(arr, j, maxIndex);
+          setArrayNumber([...arr]);
+        }
+      }
+      arr[j].color = ElementStates.Default;
+      arr[i].color = ElementStates.Default;
+      setArrayNumber([...arr]);
+    }
+    arr[maxIndex].color = ElementStates.Modified;
+    swap(arr, i, maxIndex);
+    setArrayNumber([...arr]);
+  }
+}
+
+export const bubbleSort = async (arr: TArray[], timeDelay: number, setArrayNumber: Dispatch<SetStateAction<TArray[]>>, sortingDirection: 'asc' | 'desc') => {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      arr[j].color = ElementStates.Changing;
+      arr[j + 1].color = ElementStates.Changing;
+      setArrayNumber([...arr]);
+      await loading(timeDelay)
+      if (sortingDirection === 'asc') {
+        if (arr[j].state > arr[j + 1].state) {
+          swap(arr, j, j + 1);
+        }
+      }
+      if (sortingDirection === 'desc') {
+        if (arr[j].state < arr[j + 1].state) {
+          swap(arr, j, j + 1);
+        }
+      }
+      arr[j].color = ElementStates.Default;
+      arr[j + 1].color = ElementStates.Default;
+      setArrayNumber([...arr]);
+    }
+    arr[arr.length -i - 1].color = ElementStates.Modified;
+    setArrayNumber([...arr]);
+  }
 }
 
 export const SortingPage: React.FC = () => {
@@ -38,72 +96,14 @@ export const SortingPage: React.FC = () => {
   const [arrayNumber, setArrayNumber] = useState<TArray[]>(randomArr());
   const [loader, setLoader] = useState(false);
 
-  const selectionSort = async (arr: TArray[], sortingDirection: 'asc' | 'desc') => {
-    for (let i = 0; i < arr.length; i++) {
-      let maxIndex = i;
-      for (let j = i + 1; j < arr.length; j++) {
-        arr[i].color = ElementStates.Changing;
-        arr[j].color = ElementStates.Changing;
-        setArrayNumber([...arr]);
-        await loading(1000)
-        if (sortingDirection === 'asc') {
-          if (arr[j].state < arr[maxIndex].state) {
-            maxIndex = j;
-            swap(arr, j, maxIndex);
-            setArrayNumber([...arr]);
-          }
-        }
-        if (sortingDirection === 'desc') {
-          if (arr[j].state > arr[maxIndex].state) {
-            maxIndex = j;
-            swap(arr, j, maxIndex);
-            setArrayNumber([...arr]);
-          }
-        }
-        arr[j].color = ElementStates.Default;
-        arr[i].color = ElementStates.Default;
-        setArrayNumber([...arr]);
-      }
-      arr[maxIndex].color = ElementStates.Modified;
-      swap(arr, i, maxIndex);
-      setArrayNumber([...arr]);
-    }
-  }
-
-  const bubbleSort = async (arr: TArray[], sortingDirection: 'asc' | 'desc') => {
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr.length - i - 1; j++) {
-        arr[j].color = ElementStates.Changing;
-        arr[j + 1].color = ElementStates.Changing;
-        setArrayNumber([...arr]);
-        await loading(1000)
-        if (sortingDirection === 'asc') {
-          if (arr[j].state > arr[j + 1].state) {
-            swap(arr, j, j + 1);
-          }
-        }
-        if (sortingDirection === 'desc') {
-          if (arr[j].state < arr[j + 1].state) {
-            swap(arr, j, j + 1);
-          }
-        }
-        arr[j].color = ElementStates.Default;
-        arr[j + 1].color = ElementStates.Default;
-        setArrayNumber([...arr]);
-      }
-      arr[arr.length -i - 1].color = ElementStates.Modified;
-      setArrayNumber([...arr]);
-    }
-    setArrayNumber([...arr]);
-  }
-
+  
   function ascendingSort() {
     setLoader(true);
     if (sortingMethod === 'selectionSort') {
-      selectionSort(arrayNumber, 'asc')
+      selectionSort(arrayNumber, 1000, setArrayNumber, 'asc')
     }
     if (sortingMethod === 'bubbleSort') {
-      bubbleSort(arrayNumber, 'asc')
+      bubbleSort(arrayNumber, 1000, setArrayNumber, 'asc')
     }
     setLoader(false);
   }
@@ -111,10 +111,10 @@ export const SortingPage: React.FC = () => {
   function descendingSort() {
     setLoader(true);
     if (sortingMethod === 'selectionSort') {
-      selectionSort(arrayNumber, 'desc')
+      selectionSort(arrayNumber, 1000, setArrayNumber, 'desc')
     }
     if (sortingMethod === 'bubbleSort') {
-      bubbleSort(arrayNumber, 'desc')
+      bubbleSort(arrayNumber, 1000, setArrayNumber, 'desc')
     }
     setLoader(false);
   }

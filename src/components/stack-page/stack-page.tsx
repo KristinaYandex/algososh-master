@@ -58,9 +58,9 @@ export const StackPage: React.FC = () => {
 
   const getTop = (arr: TElement[], index: number) => {
     if (arr.length - 1 === index) {
-      return "top";
+      return 'top';
     } else {
-      return "";
+      return '';
     }
   }
 

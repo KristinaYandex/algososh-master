@@ -7,7 +7,7 @@ export class Node<T> {
   }
 }
 
-interface ILinkedList<T> {
+export interface ILinkedList<T> {
   append: (element: T) => void;
   prepend: (element: T) => void;
   deleteHead: () => void;
